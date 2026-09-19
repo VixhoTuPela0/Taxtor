@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Taxtor</title>
+</head>
+
+<body>
+
+    <h1 id="message">Loading...</h1>
+
+    <script>
+async function getUser() {
+    try {
+        const response = await fetch("/api/");
+
+        if (response.redirected) {
+            // If the response is redirected, navigate to the new URL
+            window.location.href = response.url;
+            return;
+        }
+
+        if (response.ok) {
+            const data = await response.json();
+            document.getElementById("message").textContent = data.message;
+        } else {
+            throw new Error("Network response was not ok");
+        }
+
+        document.getElementById("message").textContent = data.message;
+
+    } catch (error) {
+        console.error("ERROR:", error);
+    }
+}
+
+getUser();
+</script>
+
+</body>
+</html>
