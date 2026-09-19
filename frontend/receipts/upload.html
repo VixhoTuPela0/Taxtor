@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+</head>
+
+<body>
+
+    <h1>Upload Receipt</h1>
+
+    <form id="uploadForm">
+        <!-- Added name attributes to match your API payload standard -->
+        <input
+            type="number"
+            id="Amount"
+            placeholder="Amount"
+            step="0.01"
+            min="0"
+            required
+        >
+
+        <input
+            type="text"
+            id="Merchant"
+            name="merchant"
+            placeholder="Merchant"
+            required
+        >
+
+        <input
+            type="text"
+            id="paymentMethod"
+            name="payment_method"
+            placeholder="Payment Method"
+            required
+        >
+        
+        <input
+            type="file"
+            id="receiptPhoto"
+            name="invoice_image"
+            accept=".png,.jpg,.jpeg,.webp"
+            required
+        >
+
+        <button type="submit">
+            Upload Receipt
+        </button>
+    </form>
+
+    <p id="message"></p>
+
+
+    <script>
+    
+    // CHECK SESSION ID STATUS
+    document.addEventListener("DOMContentLoaded", async () => {
+        try {
+            const response = await fetch("/api/");
+
+            // Checks first if there is a redirection
+            if (response.redirected) {
+                window.location.href = response.url;
+                return;
+            }
+
+            // If it recieves code 200, the session/cookie is okay
+            if (response.status == 200) {return;}
+        } catch (error) {
+            console.error("Error checking the session:", error);
+        }
+    });
+
+    const form = document.getElementById("uploadForm");
+    const message = document.getElementById("message");
+
+    // UPLOAD RECEIPT
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const amount = document.getElementById("Amount").value;
+        const merchant = document.getElementById("Merchant").value;
+        const paymentMethod = document.getElementById("paymentMethod").value;
+        const receiptPhoto = document.getElementById("receiptPhoto").files[0];
+
+        // Creates the form
+        const form_data = new FormData();
+        form_data.append("amount", amount);
+        form_data.append("merchant", merchant);
+        form_data.append("payment_method", paymentMethod);
+        form_data.append("invoice_image", receiptPhoto);
+
+        try {
+            // Calls receipts. Its in form data because it has a picture
+            const response = await fetch("/api/receipts", {
+                method: "POST",
+                body: form_data
+            });
+
+            if (response.ok) {
+                // If there is a error this will show it
+                const data = await response.json();
+                message.textContent = data.message;
+            }
+
+        } catch (error) {
+            // If there is another kind of error, here it will be
+            console.error("Error de conexión:", error);
+            message.textContent = "No se pudo conectar con el servidor.";
+        }
+    });
+    </script>
+</body>
+</html>

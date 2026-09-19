@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Mis recibos</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    #receipts {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .receipt {
+        display: flex;
+        gap: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+    }
+
+    .receipt img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .receipt-info {
+        flex: 1;
+    }
+
+    .receipt-info h2 {
+        margin-top: 0;
+    }
+
+    .amount {
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    #message {
+        color: #666;
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<h1>Receipts</h1>
+
+<p id="message">Cargando recibos...</p>
+
+<div id="receipts"></div>
+
+<script>
+    // Checks if there a active session/cookie
+    document.addEventListener("DOMContentLoaded", async () => {
+        try {
+            const response = await fetch("/api/");
+
+            // Checks first if there is a redirection
+            if (response.redirected) {
+                window.location.href = response.url;
+                return;
+            }
+
+            // If it recieves code 200, the session/cookie is okay so it calls the function to show the list
+            if (response.status === 200) {
+                await loadReceipts();
+                return;
+            }
+
+        } catch (error) {
+            console.error("Error verificando la sesión:", error);
+        }
+    });
+
+
+    // Function that show the list
+    async function loadReceipts() {
+
+        const message = document.getElementById("message");
+        const receiptsContainer = document.getElementById("receipts");
+
+        // Calls receipt to get the list
+        try {
+
+            const response = await fetch("/api/receipts");
+
+            // Log if there is a error
+            if (!response.ok) {
+                message.textContent = "Messages couldn't be loaded.";
+                return;
+            }
+
+            const receipts = await response.json();
+            
+            // Log iff There isn't a receipt
+            if (receipts.length === 0) {
+                message.textContent = "You haven't add receipts yet.";
+                return;
+            }
+
+            message.textContent = "";
+
+            // Repets this process for each item
+            // Adds the item to the body
+            receipts.forEach(receipt => {
+
+                const element = document.createElement("div");
+
+                element.className = "receipt";
+
+                element.innerHTML = `
+                    <img
+                        src="${receipt.image_path}"
+                        alt="Imagen del recibo"
+                    >
+
+                    <div class="receipt-info">
+
+                        <h2>${receipt.merchant}</h2>
+
+                        <p>
+                            <strong>Fecha:</strong>
+                            ${receipt.date}
+                        </p>
+
+                        <p>
+                            <strong>Cuenta:</strong>
+                            ${receipt.payment_method}
+                        </p>
+
+                        <p class="amount">
+                            $${Number(receipt.amount).toFixed(2)}
+                        </p>
+
+                    </div>
+                `;
+
+                receiptsContainer.appendChild(element);
+            });
+
+        } catch (error) {
+            // Log if there is another type of error
+            console.error("Error:", error);
+
+            message.textContent =
+                "Error de conexión con el servidor.";
+        }
+    }
+
+     
+</script>
+```
+
+</body>
+
+</html>
