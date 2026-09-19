@@ -149,13 +149,16 @@ def logout(request: Request,response: Response ):
     dbconn.execute("DELETE FROM sessions WHERE id = ?", (session_id,))
     dbconn.commit()
 
+    # The redirect added to the main response
+    response = RedirectResponse(
+        url="/credentials/login.html?code=250",
+        status_code=303
+    )
+
     # Delete the session ID from the cookie
     response.delete_cookie(key="session_id")
 
-    # Redirect to the login page
-    return RedirectResponse(url="/credentials/login.html?code=250",
-    status_code=303
-    )
+    return response
 
 # DONT FORGOT TO REMOVE THIS ON THE ULTIMATE VERSION
 # Debugging endpoint to get all users (for testing purposes)
