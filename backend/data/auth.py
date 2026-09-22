@@ -20,6 +20,7 @@ def check_session(request: Request, response: Response):
         if not session:   
             response = RedirectResponse(url="/credentials/login.html?code=252", status_code=303)
             response.delete_cookie("session_id")
+            response.delete_cookie("language")
             return response
         
         # Check if it is expired, if it is, deletes session_id on the DB/Cookie
@@ -30,6 +31,7 @@ def check_session(request: Request, response: Response):
             dbconn.commit()
             response = RedirectResponse(url="/credentials/login.html?code=253", status_code=303)
             response.delete_cookie("session_id")
+            response.delete_cookie("language")
             return response
 
         return {"message": "200"}
@@ -50,6 +52,7 @@ def check_only_cookies(request: Request, response: Response):
         session = dbconn.execute("SELECT * FROM sessions WHERE id = ?",(session_id,)).fetchone()
         if not session:
             response.delete_cookie("session_id")
+            response.delete_cookie("language")
             return {"message": "200"}
 
         # Check if it is expired. If it is, deletes actual cookie and session_id on DB
@@ -59,6 +62,7 @@ def check_only_cookies(request: Request, response: Response):
             dbconn.execute("DELETE FROM sessions WHERE id = ?", (session_id,))
             dbconn.commit()
             response.delete_cookie("session_id")
+            response.delete_cookie("language")
             return {"message": "200"}
     
         return RedirectResponse(url="/index.html", status_code=303)
