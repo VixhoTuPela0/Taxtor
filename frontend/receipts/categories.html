@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .add-category {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        .category {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid #ddd;
+            margin-bottom: 8px;
+            border-radius: 6px;
+        }
+
+        .delete {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        #message {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>My Categories</h1>
+
+    <div id="message"></div>
+
+    <!-- Add category -->
+    <form id="addForm" class="add-category">
+        <input
+            type="text"
+            id="categoryName"
+            placeholder="Category name"
+            required
+        >
+
+        <button type="submit">Add</button>
+    </form>
+
+    <!-- Categories -->
+    <div id="categories"></div>
+
+
+    <script>
+
+        const categoriesContainer = document.getElementById("categories");
+        const addForm = document.getElementById("addForm");
+        const categoryName = document.getElementById("categoryName");
+        const message = document.getElementById("message");
+
+
+        // Load categories
+        async function loadCategories() {
+
+            try {
+
+                const response = await fetch("/api/categories");
+
+                if (!response.ok) {
+                    throw new Error("Could not load categories.");
+                }
+
+                const categories = await response.json();
+
+                categoriesContainer.innerHTML = "";
+
+                if (categories.length === 0) {
+                    categoriesContainer.innerHTML =
+                        "<p>No categories yet.</p>";
+                    return;
+                }
+
+                categories.forEach(category => {
+
+                    const div = document.createElement("div");
+                    div.className = "category";
+
+                    const name = document.createElement("span");
+                    name.textContent = category.name;
+
+                    const deleteButton = document.createElement("button");
+                    deleteButton.textContent = "Delete";
+                    deleteButton.className = "delete";
+
+                    deleteButton.onclick = () => {
+                        deleteCategory(category.name);
+                    };
+
+                    div.appendChild(name);
+                    div.appendChild(deleteButton);
+
+                    categoriesContainer.appendChild(div);
+                });
+
+            } catch (error) {
+
+                message.textContent = error.message;
+
+            }
+        }
+
+
+        // Add category
+        addForm.addEventListener("submit", async (event) => {
+
+            event.preventDefault();
+
+            const name = categoryName.value.trim();
+
+            if (!name) {
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("name", name);
+
+            try {
+
+                const response = await fetch("/api/categories_add", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    message.textContent = data.detail || "Error adding category.";
+                    return;
+                }
+
+                message.textContent = "Category added!";
+
+                categoryName.value = "";
+
+                await loadCategories();
+
+            } catch (error) {
+
+                message.textContent = "Error connecting to server.";
+
+            }
+        });
+
+
+        // Delete category
+        async function deleteCategory(name) {
+
+            const formData = new FormData();
+            formData.append("name", name);
+
+            try {
+
+                const response = await fetch("/api/categories_delete", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    message.textContent = data.detail || "Error deleting category.";
+                    return;
+                }
+
+                message.textContent = "Category deleted!";
+
+                await loadCategories();
+
+            } catch (error) {
+
+                message.textContent = "Error connecting to server.";
+
+            }
+        }
+
+
+        // Load categories when page opens
+        loadCategories();
+
+    </script>
+
+</body>
+</html>
