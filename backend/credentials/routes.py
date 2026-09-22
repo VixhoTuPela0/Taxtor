@@ -1,11 +1,11 @@
 # Dependencies
-from datetime import datetime, timedelta
-from fastapi import APIRouter, HTTPException, Response, Request ,Cookie
-from fastapi.responses import RedirectResponse
-from pydantic import BaseModel
-import sqlite3
-import bcrypt
-import secrets
+from datetime import datetime, timedelta # Add timedelta import
+from fastapi import APIRouter, HTTPException, Response, Request ,Cookie # Add fastapi dependencies
+from fastapi.responses import RedirectResponse # Add fastapi redirection response
+from pydantic import BaseModel # Add pydantic for data validation ( create models for request and response data)
+import sqlite3 # Add sqlite3 for database operations
+import bcrypt # Add bcrypt for password hashing
+import secrets # Add secrets for generating secure tokens
 
 router = APIRouter()
 dbconn = sqlite3.connect('/app/data/database.db', check_same_thread=False)
@@ -13,6 +13,7 @@ dbconn = sqlite3.connect('/app/data/database.db', check_same_thread=False)
 # Create the users table if it doesn't exist
 dbconn.execute('''CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    language TEXT NOT NULL DEFAULT 'en',
     username TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
@@ -26,7 +27,6 @@ dbconn.execute('''CREATE TABLE IF NOT EXISTS sessions (
     FOREIGN KEY (user_id) REFERENCES users (id)
 )''')
 
-
 dbconn.commit()
 
 # Pydantic models
@@ -34,6 +34,7 @@ class UserRegister(BaseModel):
     username: str
     email: str
     password: str
+    language: str | None = 'en'  # Optional language field with default value 'en'
 
 class UserLogin(BaseModel):
     username: str
@@ -52,10 +53,7 @@ def register_user(user: UserRegister):
 
     # Error handling for existing user
     if existing_user:
-        raise HTTPException(
-            status_code=400,
-            detail="The username or email is already registered"
-        )
+        raise HTTPException(status_code=400, detail="USERNAME_TAKEN")
 
     # Hash the password before storing it in the database 
     hashed_password = bcrypt.hashpw(
@@ -64,8 +62,8 @@ def register_user(user: UserRegister):
     
     # Insert the new user into the database
     dbconn.execute(
-        "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-        (user.username, user.email, hashed_password)
+        "INSERT INTO users (username, email, password, language) VALUES (?, ?, ?, ?)",
+        (user.username, user.email, hashed_password, user.language)
     )
     dbconn.commit()
 
@@ -83,7 +81,7 @@ def login_user(response: Response, user: UserLogin):
     def invalid_username():
         raise HTTPException(
         status_code=401,
-        detail="Invalid username or password"
+        detail="INVALID_CREDENTIALS"
         )
 
     # Query the database for the user by username
@@ -97,7 +95,7 @@ def login_user(response: Response, user: UserLogin):
         invalid_username()
 
     # Unpack the user data from the database  
-    user_id, username, email, hashed_password = database_user
+    user_id, language, username, email, hashed_password = database_user
 
     # Verify the provided password against the hashed password in the database
     if not bcrypt.checkpw(user.password.encode('utf-8'), hashed_password.encode('utf-8')):
@@ -130,12 +128,22 @@ def login_user(response: Response, user: UserLogin):
         samesite="lax",
         max_age=7 * 24 * 60 * 60  # 7 days in seconds
     )
+
+    # Add the language on the cookie on the response
+    response.set_cookie(
+        key="language", 
+        value=language,
+        httponly=False,
+        samesite="lax",
+        max_age=7 * 24 * 60 * 60  # 7 days in seconds
+    )
+
     # Return the response with the session cookie and redirection to the index page all together
     return response
 
 # Logout user endpoint
 @router.post("/logout")
-def logout(request: Request,response: Response ):
+def logout(request: Request,response: Response):
     # Get the session ID from the cookie
     session_id = request.cookies.get("session_id")
 
@@ -158,16 +166,7 @@ def logout(request: Request,response: Response ):
     # Delete the session ID from the cookie
     response.delete_cookie(key="session_id")
 
+    # Delete the language from the cookie
+    response.delete_cookie(key="language")
+
     return response
-
-# DONT FORGOT TO REMOVE THIS ON THE ULTIMATE VERSION
-# Debugging endpoint to get all users (for testing purposes)
-@router.get("/users")
-def get_users():
-    users = dbconn.execute("SELECT id, username, email, password FROM users").fetchall()
-    return [{"id": user[0], "username": user[1], "email": user[2], "password": user[3]} for user in users]
-
-@router.get("/sessions")
-def get_sessions():
-    sessions = dbconn.execute("SELECT id, user_id, expires_at FROM sessions").fetchall()
-    return [{"id": session[0], "user_id": session[1], "expires_at": session[2]} for session in sessions]
