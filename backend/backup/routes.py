@@ -12,7 +12,7 @@ router = APIRouter()
 dbconn = sqlite3.connect('/app/data/database.db', check_same_thread=False)
 
 # Endpoint for exporting receipts as an Excel file and a ZIP file
-@router.get("/export/")
+@router.get("/export")
 def export_receipts(
     request: Request,
     payment_method: str | None = Query(default=None),

@@ -1,0 +1,11 @@
+register_header,Register,Registrarse,S'inscrire
+register_token_description,"Please enter your registration token below to create your account.","Por favor, introduzca su token de registro a continuación para crear su cuenta.","Veuillez entrer votre jeton d'inscription ci-dessous pour créer votre compte."
+token_placeholder,Enter registration token,Introduzca el token de registro,Entrez le jeton d'inscription
+create_account,Create Account,Crear cuenta,Créer un compte
+username_placeholder,Enter username,Introduzca el nombre de usuario,Entrez le nom d'utilisateur
+email_placeholder,Enter email address,Introduzca la dirección de correo electrónico,Entrez l'adresse e-mail
+password_placeholder,Enter password,Introduzca la contraseña,Entrez le mot de passe
+token_submit,Submit,Enviar,Soumettre
+INVITATION_NOT_FOUND, Invitation not found, Invitación no encontrada, Invitation non trouvée
+INVITATION_EXPIRED, Invitation has expired, La invitación ha caducado, L'invitation a expiré
+USERNAME_TAKEN, Username or email is already taken, El nombre de usuario o el correo electrónico ya están en uso, Le nom d'utilisateur ou l'adresse e-mail est déjà pris

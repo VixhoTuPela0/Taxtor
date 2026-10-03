@@ -1,0 +1,127 @@
+/* =========================
+    Header Stylesheet
+    ========================= */
+
+body { /* Set the font family for the entire page */
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+}
+
+.main-header { /* Header container */
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 24px;
+
+    background-color: white;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* =========================
+    Header Left Section
+    ========================= */
+
+.header-left img { /* Logo image */
+    height: 70px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* =========================
+    Header Central Section
+    ========================= */
+.main-nav { /* Navigation menu */
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.main-nav a { /* Navigation links */
+    color: #374151;
+    transition: text-shadow 0.15s ease;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.main-nav a:hover { /* Navigation link hover effect */
+    color: #000000;
+    text-shadow: 0.3px 0 currentColor, -0.3px 0 currentColor;
+}
+
+/* =========================
+    Header Right Section
+    ========================= */
+        
+.header-right { /* Right section of the header */
+    display: flex;
+    gap: 12px;
+}
+
+.header-button { /* Language and profile buttons */
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #374151;
+    font-size: 15px;
+}
+
+.header-button span { /* Text inside the buttons */
+    transition: text-shadow 0.15s ease;
+}
+
+.header-button:hover span { /* Text shadow effect on hover */
+    text-shadow: 0.3px 0 currentColor, -0.3px 0 currentColor;
+}
+
+.language-menu, .profile-menu { /* Dropdown menu containers */
+    position: relative;
+}
+
+.language-dropdown, .profile-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 6px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+}
+
+.language-dropdown { /* Language dropdown specific styles */
+    min-width: 95px;
+}
+
+.profile-dropdown { /* Profile dropdown specific styles */
+    min-width: 135px;
+}
+
+.language-dropdown.show, .profile-dropdown.show { /* Show the dropdown when active */
+    display: flex;
+    flex-direction: column;
+}
+
+.language-dropdown button, .profile-dropdown button, .profile-dropdown a { /* Styles for buttons and links inside the dropdowns */
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    text-decoration: none;
+    text-align: left;
+    cursor: pointer;
+    color: #374151;
+    font-size: 14px;
+}
+
+.language-dropdown button:hover, .profile-dropdown button:hover, .profile-dropdown a:hover { /* Hover effect for buttons and links inside the dropdowns */
+    background-color: #f3f4f6;
+}

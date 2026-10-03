@@ -4,3 +4,4 @@ bcrypt
 Pillow
 python-multipart
 openpyxl
+pytesseract

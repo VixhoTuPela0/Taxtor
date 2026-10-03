@@ -1,0 +1,14 @@
+key,en,es,fr
+login_title,Login - Taxtor,Iniciar sesión - Taxtor,Connexion - Taxtor
+login_header,Login to your account,Inicia sesión en tu cuenta,Connectez-vous à votre compte
+login_username,Username,Nombre de usuario,Nom d'utilisateur
+login_password,Password,Contraseña,Mot de passe
+login_button,Login,Iniciar sesión,Connexion
+REGISTER_SUCCESSFUL,Registration successful! Please log in.,¡Registro exitoso! Por favor inicia sesión.,Inscription réussie ! Veuillez vous connecter.
+LOGOUT_SUCCESSFUL,You have been logged out successfully.,Has cerrado sesión correctamente.,Vous avez été déconnecté avec succès.
+NO_ACTIVE_SESSION,"There is no active session, please log in.","No hay ninguna sesión activa, por favor inicia sesión.","Il n'y a pas de session active, veuillez vous connecter."
+SESSION_NOT_FOUND,"Session not found, please log in.","Sesión no encontrada, por favor inicia sesión.","Session non trouvée, veuillez vous connecter."
+SESSION_EXPIRED,"Your session has expired, please log in back in.","Por favor inicia sesión de nuevo.","Votre session a expiré, veuillez vous reconnecter."
+INVALID_CREDENTIALS,"Invalid username or password, please try again.","Nombre de usuario o contraseña inválidos, por favor inténtalo de nuevo.","Nom d'utilisateur ou mot de passe invalide, veuillez réessayer."
+username_placeholder,Enter your username,Introduce tu nombre de usuario,Entrez votre nom d'utilisateur
+password_placeholder,Enter your password,Introduce tu contraseña,Entrez votre mot de passe
