@@ -1,0 +1,90 @@
+ <!-- Header -->
+<header class="main-header">
+
+    <!-- Left side of the header -->
+    <div class="header-left">
+        <!-- Logo -->
+        <a href="/index.html" class="logo">
+            <img src="/components/images/logo.png" alt="Logo" class="logo-image">
+        </a>
+    </div>
+
+    <!-- Navigation links with translations support -->
+    <nav class="main-nav">
+
+        <a href="/index.html" data-i18n="nav_home">
+            Home
+        </a>
+        
+        <a href="/receipts/upload.html" data-i18n="nav_upload">
+            Upload Receipt
+        </a> 
+        
+        <a href="/receipts/list.html" data-i18n="nav_receipts">
+            Receipt List
+        </a>
+
+        <a href="/receipts/categories.html" data-i18n="nav_categories">
+            Categories
+        </a>
+
+    </nav>
+
+    <!-- Right side of the header -->
+    <div class="header-right">
+
+        <!-- Language selection menu -->
+        <div class="language-menu">
+
+            <!-- Language selection button -->
+            <button id="language-button" class="header-button">
+                🌐 <span data-i18n="current_language">EN</span>
+                <span>&#9660;</span>
+            </button>
+
+            <!-- Language selection dropdown -->
+            <div id="language-dropdown" class="language-dropdown">
+
+                <button data-language="es">
+                    🇪🇸 Español
+                </button>
+
+                <button data-language="fr">
+                    🇫🇷 Français
+                </button>
+
+                <button data-language="en">
+                    🇬🇧 English
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Profile menu -->
+        <div class="profile-menu">
+
+            <!-- Profile button -->
+            <button id="profile-button" class="header-button">
+                👤 <span id="profile-name" data-i18n="profile">Profile</span>
+                <span>&#9660;</span>
+            </button>
+
+            <!-- Profile dropdown menu -->
+            <div id="profile-dropdown" class="profile-dropdown">
+
+                <a href="/settings.html">
+                    ⚙️ <span data-i18n="settings">Settings</span>
+                </a>
+
+                <a href="/credentials/logout.html">
+                    🚪<span data-i18n="logout">Logout</span>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>

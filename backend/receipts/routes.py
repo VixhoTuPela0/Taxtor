@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Request, UploadFile, File, Form, HTTPException # Import FastAPI modules
 from fastapi.responses import FileResponse # Import FastAPI redirect response
-from pydantic import BaseModel  # Import Pydantic BaseModel for data validation
 from PIL import Image  # Import Pillow for image processing
+from tempfile import NamedTemporaryFile # Import NamedTemporaryFile for temporary file handling
 from pathlib import Path # Import Path for file path handling
 from data.auth import get_userid # Import the get_userid function from the auth module
+from receipts.ocr import scan_image, parse_receipt_text # Import the scan_image function from the ocr module
 import uuid
 import sqlite3
 
@@ -125,52 +126,17 @@ def list_receipt(request: Request):
 
     return[{"amount": receipt[0], "date": receipt[1], "merchant": receipt[2], "payment_method": receipt[3], "category": receipt[4], "description": receipt[5], "image_path": receipt[6]} for receipt in receipts]
 
-# The endpoint for listing all categories for the user
-@router.get("/categories")
-def list_categories(request: Request):
 
-    user_id = get_userid(request)
+@router.post("/receipts/scan")
+async def scan_receipt(file: UploadFile = File(...)):
 
-    categories = dbconn.execute("SELECT name, type FROM categories WHERE user_id = ?",(user_id,)).fetchall()
+    # Save the uploaded file to a temporary location
+    with NamedTemporaryFile(delete=False, suffix=".jpg") as temp:
+        temp.write(await file.read())
+        temp_path = temp.name
 
-    return[{"name": category[0], "type": category[1]} for category in categories]
+    text = scan_image(temp_path)
 
-# The endpoint for adding a new category for the user
-@router.post("/categories/add")
-def add_category(
-    request: Request,
-     name: str = Form(...),
-     type: str = Form(...)
-     ):
-
-    user_id = get_userid(request)
-
-    # Check if the category already exists for the user
-    existing_category = dbconn.execute("SELECT id FROM categories WHERE user_id = ? AND name = ?", (user_id, name)).fetchone()
-    if existing_category:
-        raise HTTPException(status_code=400, detail="CATEGORY_EXISTS")
-
-    # Insert the new category into the database
-    dbconn.execute("INSERT INTO categories (name, type, user_id) VALUES (?, ?, ?)", (name, type, user_id))
-    dbconn.commit()
-
-    return {"message": "CATEGORY_ADDED"}
-# The endpoint for deleting a category for the user
-@router.post("/categories/delete")
-def delete_category(request: Request, name: str = Form(...)):
-
-    user_id = get_userid(request)
-
-    # Check if the category exists for the user
-    existing_category = dbconn.execute("SELECT id FROM categories WHERE user_id = ? AND name = ?", (user_id, name)).fetchone()
-    if not existing_category:
-        raise HTTPException(status_code=404, detail="CATEGORY_NOT_FOUND")
-
-    # Delete the category from the database
-    dbconn.execute("DELETE FROM categories WHERE user_id = ? AND name = ?", (user_id, name))
-    dbconn.commit()
-
-    return {"message": "CATEGORY_DELETED"}
-
-
+    return {"text": text, "data": parse_receipt_text(text)}
+    
 

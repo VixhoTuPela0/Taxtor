@@ -1,0 +1,19 @@
+key,en,es,fr
+invitations_title,Invitations - Taxtor,Invitaciones - Taxtor,Invitations - Taxtor
+create_invitations_header,Create Invitations,Crear Invitaciones,Créer des invitations
+invitations_header,Pending Invitations,Invitaciones Pendientes,Invitations en attente
+create_invitation_button,Create Invitation,Crear Invitación,Créer une invitation
+email_placeholder,Enter email address,Introduce la dirección de correo electrónico,Entrez l'adresse e-mail
+EMAIL_REQUIRED, Email is required, El correo electrónico es obligatorio, L'adresse e-mail est requise
+LANGUAGE_REQUIRED, Language is required, El idioma es obligatorio, La langue est requise
+EMAIL_IN_USE, Email is already in use, El correo electrónico ya está en uso, L'adresse e-mail est déjà utilisée
+INVITATION_ALREADY_SENT, Invitation has already been sent, La invitación ya ha sido enviada, L'invitation a déjà été envoyée
+INVITATION_SENT_SUCCESS, Invitation sent successfully, Invitación enviada con éxito, Invitation envoyée avec succès
+INVITATION_SENT_FAILURE, Failed to send invitation, Error al enviar la invitación, Échec de l'envoi de l'invitation
+INVITATION_FETCH_FAILURE, Failed to fetch invitations, Error al obtener las invitaciones, Échec de la récupération des invitations
+INVITATION_DELETED_SUCCESS, Invitation deleted successfully, Invitación eliminada con éxito, Invitation supprimée avec succès
+no_invitations,No pending invitations, No hay invitaciones pendientes, Aucune invitation en attente
+email,Email,Correo electrónico,E-mail
+language,Language,Idioma,Langue
+creation_date,Creation date,Fecha de creación,Date de création
+expiration_date,Expiration date,Fecha de expiración,Date d'expiration

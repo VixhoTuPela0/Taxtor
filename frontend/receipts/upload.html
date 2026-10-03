@@ -5,95 +5,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Receipt</title>
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/header.css">
+
+    <script src="/components/auth.js"></script>
+
+    
 </head>
 
 <body>
 
-    <h1>Upload Receipt</h1>
+    <div id="page">
+        <h1>Upload Receipt</h1>
 
-    <form id="uploadForm">
+        <form id="uploadForm">
 
-        <input
-            type="number"
-            id="Amount"
-            placeholder="Amount"
-            step="0.01"
-            min="0"
-            required
-        >
+            <input
+                type="number"
+                id="Amount"
+                placeholder="Amount"
+                step="0.01"
+                min="0"
+                required
+            >
 
-        <input
-            type="text"
-            id="Merchant"
-            name="merchant"
-            placeholder="Merchant"
-            required
-        >
+            <input
+                type="text"
+                id="Merchant"
+                name="merchant"
+                placeholder="Merchant"
+                required
+            >
 
-        <input
-            type="text"
-            id="paymentMethod"
-            name="payment_method"
-            placeholder="Payment Method"
-            required
-        >
+            <input
+                type="text"
+                id="paymentMethod"
+                name="payment_method"
+                placeholder="Payment Method"
+                required
+            >
 
-        <!-- CATEGORY -->
-        <select id="category" name="category" required>
-            <option value="">Loading categories...</option>
-        </select>
+            <!-- CATEGORY -->
+            <select id="category" name="category" required>
+                <option value="">Loading categories...</option>
+            </select>
 
-        <input
-            type="file"
-            id="receiptPhoto"
-            name="invoice_image"
-            accept=".png,.jpg,.jpeg,.webp"
-            required
-        >
+            <input
+                type="file"
+                id="receiptPhoto"
+                name="invoice_image"
+                accept=".png,.jpg,.jpeg,.webp"
+                required
+            >
 
-        <button type="submit">
-            Upload Receipt
-        </button>
+            <button type="submit">
+                Upload Receipt
+            </button>
 
-    </form>
+        </form>
+    </div>
 
     <p id="message"></p>
 
 
     <script>
-
-        // CHECK SESSION ID STATUS
-        document.addEventListener("DOMContentLoaded", async () => {
-
-            try {
-
-                const response = await fetch("/api/");
-
-                // Checks first if there is a redirection
-                if (response.redirected) {
-                    window.location.href = response.url;
-                    return;
-                }
-
-                // If it receives code 200, the session/cookie is okay
-                if (response.status == 200) {
-
-                    // Load the user's categories
-                    loadCategories();
-
-                    return;
-                }
-
-            } catch (error) {
-
-                console.error(
-                    "Error checking the session:",
-                    error
-                );
-
-            }
-
-        });
 
 
         // LOAD USER CATEGORIES

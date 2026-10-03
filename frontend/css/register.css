@@ -1,0 +1,329 @@
+/* =========================
+General
+========================= */
+
+* {
+  box-sizing: border-box;
+  }
+
+body {
+margin: 0;
+min-height: 100vh;
+
+
+font-family: Arial, sans-serif;
+
+background-color: #f4f5f7;
+
+color: #222;
+
+
+}
+
+/* =========================
+Register Container
+========================= */
+
+.register-page {
+min-height: 100vh;
+
+
+display: flex;
+justify-content: center;
+align-items: center;
+
+padding: 20px;
+
+
+}
+
+/* =========================
+Language Selector
+========================= */
+
+.language-selector {
+position: fixed;
+
+
+top: 20px;
+right: 25px;
+
+display: flex;
+align-items: center;
+
+gap: 7px;
+
+
+}
+
+.language-selector label {
+font-size: 18px;
+}
+
+.language-selector select {
+padding: 7px 10px;
+
+
+border: 1px solid #d5d5d5;
+border-radius: 7px;
+
+background-color: white;
+color: #222;
+
+font-size: 14px;
+
+cursor: pointer;
+
+outline: none;
+
+transition: border-color 0.2s, box-shadow 0.2s;
+
+
+}
+
+.language-selector select:hover {
+border-color: #999;
+}
+
+/* =========================
+Register Box
+========================= */
+
+.register-box {
+width: 100%;
+max-width: 400px;
+
+
+padding: 40px;
+
+background-color: white;
+
+border-radius: 12px;
+
+box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+
+}
+
+/* =========================
+Register Header
+========================= */
+
+.register-header {
+text-align: center;
+
+
+margin-bottom: 25px;
+
+
+}
+
+.register-header img.logo-image {
+height: 130px;
+width: auto;
+
+
+object-fit: contain;
+
+
+}
+
+/* =========================
+Register Sections
+========================= */
+
+#token-section,
+#register-section {
+width: 100%;
+
+
+text-align: center;
+
+
+}
+
+#token-section h1,
+#register-section h1 {
+margin: 0 0 12px;
+
+
+font-size: 28px;
+font-weight: 600;
+
+color: #222;
+
+
+}
+
+#token-section > p,
+#register-section > p {
+margin: 0 0 25px;
+
+
+color: #696969;
+
+font-size: 15px;
+line-height: 1.5;
+
+
+}
+
+/* =========================
+Forms
+========================= */
+
+#token-form,
+#registerForm {
+display: flex;
+flex-direction: column;
+
+
+gap: 15px;
+
+
+}
+
+/* =========================
+Inputs
+========================= */
+
+#token-form input,
+#registerForm input {
+width: 100%;
+
+
+padding: 12px 14px;
+
+border: 1px solid #d5d5d5;
+border-radius: 7px;
+
+background-color: white;
+color: #222;
+
+font-size: 15px;
+
+outline: none;
+
+transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+
+
+}
+
+#token-form input:focus,
+#registerForm input:focus {
+border-color: #555;
+
+
+box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+
+
+}
+
+#token-form input::placeholder,
+#registerForm input::placeholder {
+color: #999;
+}
+
+/* =========================
+Buttons
+========================= */
+
+#token-form button,
+#registerForm button {
+width: 100%;
+
+
+padding: 12px;
+
+margin-top: 5px;
+
+border: none;
+border-radius: 7px;
+
+background-color: #222;
+color: white;
+
+font-size: 15px;
+font-weight: 600;
+
+cursor: pointer;
+
+transition: background-color 0.2s;
+
+
+}
+
+#token-form button:hover,
+#registerForm button:hover {
+background-color: #444;
+}
+
+/* =========================
+Messages
+========================= */
+
+.message {
+display: none;
+
+
+margin: 20px 0 0;
+padding: 10px 12px;
+
+border-radius: 7px;
+
+font-size: 14px;
+line-height: 1.4;
+
+text-align: center;
+
+
+}
+
+.message.success {
+display: block;
+
+
+background-color: #e8f7ed;
+color: #247a3d;
+
+border: 1px solid #b7e4c7;
+
+
+}
+
+.message.error {
+display: block;
+
+
+background-color: #fdecec;
+color: #b42318;
+
+border: 1px solid #f5c2c0;
+
+
+}
+
+/* =========================
+Responsive
+========================= */
+
+@media (max-width: 480px) {
+
+
+.register-box {
+    padding: 30px 25px;
+}
+
+#token-section h1,
+#register-section h1 {
+    font-size: 25px;
+}
+
+.language-selector {
+    top: 15px;
+    right: 15px;
+}
+
+}

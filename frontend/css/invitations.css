@@ -1,0 +1,311 @@
+
+/* =============================
+   Invitations Page             
+   ============================= */
+
+.invitations-page {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: 0 auto;
+    padding: 40px 24px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* =============================
+   Main Boxes
+    ============================= */
+
+.invitation-form, .invitations-list {
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e5e5;
+    border-radius: 18px;
+    
+    padding: 25px;
+    margin-bottom: 20px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.invitation-form {
+    margin-bottom: 10px;
+}
+/* =============================
+    Titles
+    ============================= */
+
+h1 {
+    margin: 0;
+
+    font-size: 24px;
+    font-weight: 600;
+
+    color: #222;
+
+    align-self: flex-start;
+    text-align: left;
+
+}
+
+/* =============================
+    Create Invitation Box
+    ============================= */
+
+.form-group { /* Form Group for Inputs and Button */
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    width: 100%;
+
+    margin-top: 25px;
+
+    flex-wrap: wrap;
+}
+
+.invitation-form input, .invitation-form select { /* Input and Select boxes */
+    width: 300px;
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: 1px solid #d8d8d8;
+    border-radius: 8px;
+    background: #fff;
+
+    font-size: 14px;
+    color: #333;
+
+    box-sizing: border-box;
+
+    transition:
+        border 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.invitation-form select { /* Language cursor */
+    cursor: pointer;
+}
+
+.invitation-form input:focus, .invitation-form select:focus { /* Focus state for Input and Select boxes */
+    outline: none;
+    border-color: #999;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+#create-invitation { /* Create Invitation Button */
+    height: 42px;
+    padding: 0 18px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #222;
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 
+        background 0.2s ease,
+        transform 0.1s ease;
+}
+
+#create-invitation:hover { /* Hover state for Create Invitation Button */
+    background: #333;
+}
+
+#create-invitation:active { /* When the Create Invitation Button is clicked */
+    transform: scale(0.97);
+}
+
+
+/* =============================
+    Invitations Box
+    ============================= */
+
+.invitations-card {
+    width: 100%;
+    box-sizing: border-box;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* =============================
+    Invitations list
+    ============================= */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.invitation-row {
+    display: grid;
+    grid-template-columns:
+        minmax(220px, 2fr)
+        minmax(100px, 1fr)
+        minmax(170px, 1.3fr)
+        minmax(170px, 1.3fr)
+        90px;
+    
+    align-items: center;
+    min-height: 60px;
+    
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.15s ease;
+}
+
+.invitation-row:last-child { /* Remove the bottom border for the last row */
+    border-bottom: none;
+}
+
+/* =============================
+    Invitation Header
+    ============================= */
+
+.invitation-header {
+    min-height: 52px;
+    background: #f8f9fa;
+
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+
+    color: #4b5a63;
+
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* =============================
+    Invitation Cells
+    ============================= */
+
+.invitation-cell {
+    padding: 0 20px;
+
+    min-width: 0; /* Ensures that the cell can shrink properly in a flex/grid layout */
+
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    color: #1f2937;
+    font-size: 16px;
+    text-align: center; 
+}
+
+.invitation-row:not(.invitation-header):hover { /* Hover effect for invitation rows */
+    background-color: #f1f5f9;
+}
+
+.delete-button { 
+    justify-self: center;
+
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+    border-radius: 8px;
+
+    background-color: transparent;
+    color: #6b7280;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        transform 0.15s ease;
+}
+
+.delete-button:hover { /* Hover effect for delete button */
+    background: #fee2e2;
+    color: #dc2626;
+    transform: scale(1.05);
+}
+
+.delete-button:active { /* When the delete button is clicked */
+    transform: scale(0.95);
+}
+
+/* =============================
+    Invitation Message
+    ============================= */
+
+.invitation-message {
+    display: none; /* Hidden by default */
+    width: 80%;
+    box-sizing: border-box;
+
+    padding: 12px 16px;
+
+    margin-bottom: 12px;
+
+    border-radius: 8px;
+    border: 2px solid;
+
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+
+
+}
+
+.invitation-message.success {
+    display: block;
+    background-color: #e5f7e5;
+    border-color: #a8d8a8;
+    color: #176b17;
+}
+
+.invitation-message.error {
+    display: block;
+    background-color: #fbeaea;
+    border-color: #f5a8a8;
+    color: #c0392b;
+}
+
+@media (max-width: 768px) {
+    .invitation-row {
+        grid-template-columns:
+            minmax(220px, 2fr)
+            minmax(100px, 1fr)
+            minmax(170px, 1.3fr)
+            minmax(170px, 1.3fr)
+            90px;
+    }
+}
+
+
+
+
+
+
+
+

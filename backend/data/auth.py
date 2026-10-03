@@ -38,7 +38,6 @@ def check_session(request: Request, response: Response):
     else:
         return RedirectResponse(url="/credentials/login.html?code=251", status_code=303)
 
-
 # Verifies the cookies/session_id. Keeps them up to date and dont do redirects. It is used in register and login
 @router.get("/cookies_state")
 def check_only_cookies(request: Request, response: Response):
